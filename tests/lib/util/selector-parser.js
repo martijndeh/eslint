@@ -175,23 +175,23 @@ describe("Parser", function() {
         var result = selectorParser.parse(selector);
         assert.deepEqual(result, output);
     });
-    // it("Should parse selector with multiple attributes", function() {
-    //     var selector = "FunctionDeclaration[expression=\"false\"][generator=\"false\"]";
-    //     var output = [[
-    //         {
-    //             type: "FunctionDeclaration",
-    //             attributes: [{
-    //                 query: ["expression"],
-    //                 value: "false"
-    //             }, {
-    //                 query: ["generator"],
-    //                 value: "false"
-    //             }]
-    //         }
-    //     ]];
-    //     var result = selectorParser.parse(selector);
-    //     assert.deepEqual(result, output);
-    // });
+    it("Should parse selector with multiple attributes", function() {
+        var selector = "FunctionDeclaration[expression=\"false\"][generator=\"false\"]";
+        var output = [[
+            {
+                type: "FunctionDeclaration",
+                attributes: [{
+                    query: ["expression"],
+                    value: "false"
+                }, {
+                    query: ["generator"],
+                    value: "false"
+                }]
+            }
+        ]];
+        var result = selectorParser.parse(selector);
+        assert.deepEqual(result, output);
+    });
     it("Should parse selector with attributes and attribute only selector", function() {
         var selector = "FunctionDeclaration[expression=\"false\"] [generator=\"false\"]";
         var output = [[
