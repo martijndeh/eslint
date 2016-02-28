@@ -26,7 +26,7 @@ describe("SelectorEventGenerator", function() {
             var output = {
                 lastMatchedNode: 0,
                 nodes: [{
-                    type: "FunctionDeclaration" 
+                    type: "FunctionDeclaration"
                 }, {
                     type: "Identifier"
                 }
@@ -39,7 +39,7 @@ describe("SelectorEventGenerator", function() {
                 nodes: [{
                     type: "FunctionDeclaration",
                     attributes: [{
-                        expression:"false"
+                        expression: "false"
                     }]
                 }, {
                     type: "Identifier",
@@ -49,17 +49,55 @@ describe("SelectorEventGenerator", function() {
                 }]
             };
         });
+        it("Should parse selector with attributes and spaces", function() {
+            var selector = "FunctionDeclaration[ expression=\"false\" ]";
+            var output = {
+                lastMatchedNode: 0,
+                nodes: [{
+                    type: "FunctionDeclaration",
+                    attributes: [{
+                        expression: "false"
+                    }]
+                }]
+            };
+        });
+        it("Should parse selector with attributes and spaces around equals", function() {
+            var selector = "FunctionDeclaration[expression = \"false\"]";
+            var output = {
+                lastMatchedNode: 0,
+                nodes: [{
+                    type: "FunctionDeclaration",
+                    attributes: [{
+                        expression: "false"
+                    }]
+                }]
+            };
+        });
         it("Should parse selector with child", function() {
             var selector = "FunctionDeclaration>Identifier";
             var output = {
                 lastMatchedNode: 0,
                 nodes: [{
-                    type: "FunctionDeclaration"
+                    type: "FunctionDeclaration",
+                    requiresDirectChild: true
                 }, {
                     type: "Identifier",
                     directChild: true
                 }]
-            }
+            };
+        });
+        it("Should parse selector with child and spaces", function() {
+            var selector = "FunctionDeclaration > Identifier";
+            var output = {
+                lastMatchedNode: 0,
+                nodes: [{
+                    type: "FunctionDeclaration",
+                    requiresDirectChild: true
+                }, {
+                    type: "Identifier",
+                    directChild: true
+                }]
+            };
         });
         it("Should parse selector with multiple attributes", function() {
             var selector = "FunctionDeclaration[expression=\"false\"][generator=\"false\"]";
@@ -73,7 +111,23 @@ describe("SelectorEventGenerator", function() {
                         generator: false
                     }]
                 }]
-            }
+            };
+        });
+        it("Should parse selector with attributes and attribute only selector", function() {
+            var selector = "FunctionDeclaration[expression=\"false\"] [generator=\"false\"]";
+            var output = {
+                lastMatchedNode: 0,
+                nodes: [{
+                    type: "FunctionDeclaration",
+                    attributes: [{
+                        expression: false
+                    }]
+                }, {
+                    attributes: [{
+                        generator: false
+                    }]
+                }]
+            };
         });
         it("Should parse selector with just attributes", function() {
             var selector = "[name=\"test\"]";
@@ -84,7 +138,7 @@ describe("SelectorEventGenerator", function() {
                         name: "test"
                     }]
                 }]
-            }
+            };
         });
         it("Should parse selector with nested attributes", function() {
             var selector = "FunctionDeclaration[body.type=\"BlockStatement\"]";
@@ -98,7 +152,7 @@ describe("SelectorEventGenerator", function() {
                         }
                     }]
                 }]
-            }
+            };
         });
         it("Should parse complex selector", function() {
             var selector = "FunctionDeclaration[body.type=\"BlockStatement\"] ExpressionStatement>CallExpression[callee.object.name=\"test\"][callee.property.name=\"forEach\"]";
@@ -112,7 +166,8 @@ describe("SelectorEventGenerator", function() {
                         }
                     }]
                 }, {
-                    type: "ExpressionStatement"
+                    type: "ExpressionStatement",
+                    requiresDirectoChild: true
                 }, {
                     type: "CallExpression",
                     directChild: true,
@@ -130,7 +185,7 @@ describe("SelectorEventGenerator", function() {
                         }
                     }]
                 }]
-            }
-        })
+            };
+        });
     });
 });
