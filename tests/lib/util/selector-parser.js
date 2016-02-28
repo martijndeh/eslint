@@ -238,6 +238,22 @@ describe("Parser", function() {
         var result = selectorParser.parse(selector);
         assert.deepEqual(result, output);
     });
+    it("Should parse selector with three nodes", function() {
+        var selector = "FunctionDeclaration BlockStatement ExpressionStatement";
+        var output = [[
+            {
+                type: "FunctionDeclaration"
+            },
+            {
+                type: "BlockStatement"
+            },
+            {
+                type: "ExpressionStatement"
+            }
+        ]];
+        var result = selectorParser.parse(selector);
+        assert.deepEqual(result, output);
+    });
     it("Should parse complex selector", function() {
         var selector = "FunctionDeclaration[body.type=\"BlockStatement\"] ExpressionStatement>CallExpression[callee.object.name=\"test\"][callee.property.name=\"forEach\"]";
         var output = [[
@@ -249,7 +265,7 @@ describe("Parser", function() {
                 }]
             }, {
                 type: "ExpressionStatement",
-                hasDirectoChild: true
+                hasDirectChild: true
             }, {
                 type: "CallExpression",
                 directChild: true,
